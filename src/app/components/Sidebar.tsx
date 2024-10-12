@@ -1,10 +1,10 @@
+import Notification from "@/app/components/Notification";
 import Searchbar from "@/app/components/Searchbar";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FiPlusCircle, FiUser } from "react-icons/fi";
-import { GoBell } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineLibraryMusic, MdShowChart } from "react-icons/md";
 import { RiPlayList2Fill } from "react-icons/ri";
@@ -86,12 +86,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       <div className='p-6 w-full overflow-y-auto myScrollBar'>
         <div className='flex items-center justify-between h-11 mb-4'>
           <Searchbar />
-          <button className='relative'>
-            <GoBell size={28} />
-            <div className='absolute bg-primary size-4 grid place-items-center text-white rounded-full text-[10px] -top-1 -right-1'>
-              3
-            </div>
-          </button>
+          <Notification />
         </div>
 
         {children}

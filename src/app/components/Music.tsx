@@ -4,7 +4,7 @@ import Image from "next/image";
 import { BiHeart } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { MdOutlinePlayCircle } from "react-icons/md";
-import PlaceHolderImage from "@/app/images/placeholder.jpeg";
+import PlaceHolderImage from "@/app/images/placeholder.png";
 import { formatDuration } from "@/app/shared";
 import { MusicDBAPI } from "@/app/lib/axios/musicDB";
 import { useMusicPlayer } from "@/app/lib/zustand/useMusicPlayer";
@@ -35,7 +35,7 @@ export default function Music({
 
   return (
     <div
-      className='w-full grid grid-cols-[50px_1fr_1fr_80px_40px_40px] items-center gap-4 cursor-pointer group'
+      className='w-full grid grid-cols-[50px_1fr_1fr_80px_40px_40px] items-center gap-4 cursor-pointer group hover:bg-gray-200 p-2 -mx-2 rounded'
       onClick={handleMusicPlay}
     >
       <figure className='relative size-10 rounded'>

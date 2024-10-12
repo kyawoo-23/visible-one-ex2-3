@@ -1,5 +1,6 @@
 import Image from "next/image";
-import PlaceHolderImage from "@/app/images/placeholder.jpeg";
+import PlaceHolderImage from "@/app/images/placeholder.png";
+import { MdOutlinePlayCircle } from "react-icons/md";
 
 type Props = {
   title: string;
@@ -10,13 +11,17 @@ type Props = {
 export default function MusicCard({ artist, image, title }: Props) {
   return (
     <div className='flex flex-col gap-2'>
-      <figure className='relative size-32 rounded-md'>
+      <figure className='relative size-32 rounded-md group'>
         <Image
           src={image || PlaceHolderImage}
           alt={title}
           fill
           className='object-cover rounded-md'
         />
+
+        <div className='group-hover:absolute bg-black/60 size-32 z-10 inset-0 rounded grid place-items-center'>
+          <MdOutlinePlayCircle color='#fff' size={48} />
+        </div>
       </figure>
 
       <div>

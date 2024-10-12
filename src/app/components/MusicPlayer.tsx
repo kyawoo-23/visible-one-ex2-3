@@ -2,19 +2,57 @@
 
 import { useMusicPlayer } from "@/app/lib/zustand/useMusicPlayer";
 import Image from "next/image";
-import React from "react";
-import PlaceHolderImage from "@/app/images/placeholder.jpeg";
+import React, { useRef } from "react";
+import PlaceHolderImage from "@/app/images/placeholder.png";
 import { FiPlusCircle } from "react-icons/fi";
 import { IoShuffle } from "react-icons/io5";
-import { FaCirclePlay, FaVolumeHigh } from "react-icons/fa6";
+import { FaCirclePause, FaCirclePlay, FaVolumeHigh } from "react-icons/fa6";
 import { IoMdRepeat, IoMdSkipBackward, IoMdSkipForward } from "react-icons/io";
 import { RiPlayListFill } from "react-icons/ri";
 import { MdDevices } from "react-icons/md";
 import { formatDuration } from "@/app/shared";
 import { CgSpinner } from "react-icons/cg";
+import { Howl } from "howler";
 
 export default function MusicPlayer() {
   const { trackDetails, gettingTrackDetails } = useMusicPlayer();
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const currentMusic = useRef(1);
+  const music = useRef(
+    new Howl({
+      src: [`/music/music-${currentMusic.current}.mp3`],
+    })
+  );
+
+  const handleMusicChange = (type: "prev" | "next") => {
+    music.current.pause();
+
+    let newMusicId = currentMusic.current;
+    const step = type === "prev" ? -1 : 1;
+    newMusicId += step;
+
+    if (newMusicId < 1) {
+      newMusicId = 3;
+    } else if (newMusicId > 3) {
+      newMusicId = 1;
+    }
+
+    music.current = new Howl({
+      src: [`/music/music-${newMusicId}.mp3`],
+    });
+    currentMusic.current = newMusicId;
+    music.current.play();
+  };
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      music.current.pause();
+    } else {
+      music.current.play();
+    }
+
+    setIsPlaying((prev) => !prev);
+  };
 
   return (
     <div className='h-[120px] w-full flex items-center gap-4 px-4 justify-between'>
@@ -58,13 +96,23 @@ export default function MusicPlayer() {
                 <button aria-label='Shuffle'>
                   <IoShuffle className='text-white/50' size={26} />
                 </button>
-                <button aria-label='Previous track'>
+                <button
+                  aria-label='Previous track'
+                  onClick={() => handleMusicChange("prev")}
+                >
                   <IoMdSkipBackward color='#fff' size={28} />
                 </button>
-                <button aria-label='Play'>
-                  <FaCirclePlay color='#fff' size={30} />
+                <button aria-label='Play' onClick={handlePlayPause}>
+                  {isPlaying ? (
+                    <FaCirclePause color='#fff' size={30} />
+                  ) : (
+                    <FaCirclePlay color='#fff' size={30} />
+                  )}
                 </button>
-                <button aria-label='Next track'>
+                <button
+                  aria-label='Next track'
+                  onClick={() => handleMusicChange("next")}
+                >
                   <IoMdSkipForward color='#fff' size={28} />
                 </button>
                 <button aria-label='Repeat'>
